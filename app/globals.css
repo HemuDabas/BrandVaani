@@ -1,0 +1,311 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #fff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #fff;
+    --foreground: #ededed;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar for Chrome, Safari, Firefox and Edge */
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar,
+.scrollbar-none {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* ==========================================================================
+   GLOBAL TYPOGRAPHY SYSTEM (TIPTAP EDITOR, BLOGS, ARTICLES & SERVICES)
+   Overrides Tailwind v4 resets and guarantees full HTML typography styling.
+   ========================================================================== */
+
+.tiptap,
+.prose,
+article.prose {
+  color: #0b1120;
+  line-height: 1.8;
+  font-size: 1.0625rem;
+}
+
+/* Headings */
+.tiptap h1,
+.prose h1,
+article.prose h1 {
+  font-size: 2.25rem !important; /* 36px */
+  line-height: 1.25 !important;
+  font-weight: 800 !important;
+  color: #0b1120 !important;
+  margin-top: 2rem !important;
+  margin-bottom: 1.25rem !important;
+  padding-bottom: 0.75rem !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+  letter-spacing: -0.025em !important;
+  display: block !important;
+}
+
+.tiptap h2,
+.prose h2,
+article.prose h2 {
+  font-size: 1.625rem !important; /* 26px */
+  line-height: 1.35 !important;
+  font-weight: 700 !important;
+  color: #0b1120 !important;
+  margin-top: 2.25rem !important;
+  margin-bottom: 1rem !important;
+  letter-spacing: -0.02em !important;
+  display: block !important;
+}
+
+.tiptap h3,
+.prose h3,
+article.prose h3 {
+  font-size: 1.35rem !important; /* 21.6px */
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+  color: #0b1120 !important;
+  margin-top: 1.75rem !important;
+  margin-bottom: 0.75rem !important;
+  display: block !important;
+}
+
+.tiptap h4,
+.prose h4,
+article.prose h4 {
+  font-size: 1.15rem !important; /* 18.4px */
+  line-height: 1.5 !important;
+  font-weight: 600 !important;
+  color: #0b1120 !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+  display: block !important;
+}
+
+/* Paragraphs */
+.tiptap p,
+.prose p,
+article.prose p {
+  font-size: 1.0625rem !important;
+  line-height: 1.8 !important;
+  color: #334155 !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+  display: block !important;
+}
+
+/* Strong / Bold */
+.tiptap strong,
+.tiptap b,
+.prose strong,
+.prose b,
+article.prose strong,
+article.prose b {
+  font-weight: 800 !important;
+  color: #0b1120 !important;
+}
+
+/* Emphasis / Italic */
+.tiptap em,
+.tiptap i,
+.prose em,
+.prose i,
+article.prose em,
+article.prose i {
+  font-style: italic !important;
+  color: #475569 !important;
+}
+
+/* Lists */
+.tiptap ul,
+.prose ul,
+article.prose ul {
+  list-style-type: disc !important;
+  padding-left: 1.75rem !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+  display: block !important;
+}
+
+.tiptap ol,
+.prose ol,
+article.prose ol {
+  list-style-type: decimal !important;
+  padding-left: 1.75rem !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+  display: block !important;
+}
+
+.tiptap li,
+.prose li,
+article.prose li {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  color: #334155 !important;
+  line-height: 1.7 !important;
+}
+
+.tiptap li > p,
+.prose li > p,
+article.prose li > p {
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+  display: inline-block !important;
+}
+
+/* Blockquotes */
+.tiptap blockquote,
+.prose blockquote,
+article.prose blockquote {
+  border-left: 4px solid #2563eb !important;
+  background-color: rgba(239, 246, 255, 0.7) !important;
+  padding: 1rem 1.25rem !important;
+  margin-top: 1.75rem !important;
+  margin-bottom: 1.75rem !important;
+  border-top-right-radius: 0.75rem !important;
+  border-bottom-right-radius: 0.75rem !important;
+  font-style: italic !important;
+  color: #1e293b !important;
+  display: block !important;
+}
+
+/* Horizontal Rules */
+.tiptap hr,
+.prose hr,
+article.prose hr {
+  border: 0 !important;
+  border-top: 2px solid #e2e8f0 !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 2.5rem !important;
+  display: block !important;
+}
+
+/* Links */
+.tiptap a,
+.prose a,
+article.prose a {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+  font-weight: 600 !important;
+}
+
+.tiptap a:hover,
+.prose a:hover,
+article.prose a:hover {
+  color: #1d4ed8 !important;
+}
+
+/* Code & Code blocks */
+.tiptap pre,
+.prose pre,
+article.prose pre {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  padding: 1.25rem !important;
+  border-radius: 0.875rem !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 0.875rem !important;
+  overflow-x: auto !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  display: block !important;
+}
+
+.tiptap code,
+.prose code,
+article.prose code {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  padding: 0.2rem 0.4rem !important;
+  border-radius: 0.375rem !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 0.875em !important;
+}
+
+.tiptap pre code,
+.prose pre code,
+article.prose pre code {
+  background-color: transparent !important;
+  color: inherit !important;
+  padding: 0 !important;
+}
+
+/* Images & Figures inside rich text */
+.prose img,
+article.prose img,
+.tiptap img,
+[data-tiptap-editor] img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin-top: 1.75rem !important;
+  margin-bottom: 1.75rem !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  border-radius: 1.25rem !important; /* 20px rounded-2xl */
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
+  border: none !important;
+  object-fit: cover !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.prose img:hover,
+article.prose img:hover,
+.tiptap img:hover {
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15), 0 10px 15px -5px rgba(0, 0, 0, 0.08) !important;
+}
+
+.prose figure,
+article.prose figure,
+.tiptap figure {
+  margin-top: 2rem !important;
+  margin-bottom: 2rem !important;
+  text-align: center !important;
+}
+
+.prose figure img,
+article.prose figure img,
+.tiptap figure img {
+  margin-top: 0 !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.prose figcaption,
+article.prose figcaption,
+.tiptap figcaption {
+  font-size: 0.875rem !important;
+  color: #64748b !important;
+  text-align: center !important;
+  font-style: italic !important;
+  margin-top: 0.5rem !important;
+}
