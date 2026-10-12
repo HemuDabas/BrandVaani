@@ -6,18 +6,20 @@ const SMTP_USER = process.env.SMTP_USER || "BrandVaani@gmail.com";
 const SMTP_PASS = process.env.SMTP_PASS || "";
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "BrandVaani@gmail.com";
 
-export const transporter = nodemailer.createTransport({
-  host: SMTP_HOST,
-  port: SMTP_PORT,
-  secure: SMTP_PORT === 465,
-  auth: SMTP_USER && SMTP_PASS ? {
-    user: SMTP_USER,
-    pass: SMTP_PASS,
-  } : undefined,
-  tls: {
-    rejectUnauthorized: false
-  }
-});
+export const transporter = nodemailer.createTransport(
+  SMTP_HOST.includes("gmail")
+    ? {
+        service: "gmail",
+        auth: SMTP_USER && SMTP_PASS ? { user: SMTP_USER, pass: SMTP_PASS } : undefined,
+      }
+    : {
+        host: SMTP_HOST,
+        port: SMTP_PORT,
+        secure: SMTP_PORT === 465,
+        auth: SMTP_USER && SMTP_PASS ? { user: SMTP_USER, pass: SMTP_PASS } : undefined,
+        tls: { rejectUnauthorized: false },
+      }
+);
 
 interface ContactEmailProps {
   name: string;
@@ -120,11 +122,21 @@ export async function sendContactEmails({
     };
 
     if (SMTP_PASS) {
-      await transporter.sendMail(adminMailOptions);
-      await transporter.sendMail(userMailOptions);
-      console.log("Successfully sent emails via Nodemailer to admin and user!");
+      try {
+        await transporter.sendMail(adminMailOptions);
+        console.log(`[Nodemailer] Successfully delivered admin alert to ${ADMIN_EMAIL}`);
+      } catch (adminErr) {
+        console.error("[Nodemailer Error] Failed to send email to admin:", adminErr);
+      }
+
+      try {
+        await transporter.sendMail(userMailOptions);
+        console.log(`[Nodemailer] Successfully delivered confirmation to user ${email}`);
+      } catch (userErr) {
+        console.error("[Nodemailer Error] Failed to send confirmation to user:", userErr);
+      }
     } else {
-      console.log("[Nodemailer Info] SMTP_PASS not set in .env.local. Emails logged to server console:");
+      console.log("[Nodemailer Info] SMTP_PASS not set in environment. Emails logged to server console:");
       console.log("Admin Email:", adminMailOptions.subject);
       console.log("User Email:", userMailOptions.subject);
     }
