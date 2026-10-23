@@ -6,7 +6,7 @@ import Footer from "./components/footer";
 import ScrollToTop from "./components/ScrollToTop";
 import HashNavigationHandler from "./components/HashNavigationHandler";
 import { Toaster } from "react-hot-toast";
-
+// import NextTopLoader from 'nextjs-toploader';
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
     >
       <body className="scroll-smooth min-h-full flex flex-col bg-white text-[#0B1120]">
+        {/* <NextTopLoader color="#2563eb" showSpinner={false} /> */}
         <HashNavigationHandler />
         <Toaster position="top-right" reverseOrder={false} />
         <Navbar />
