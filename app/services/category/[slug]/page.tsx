@@ -345,6 +345,7 @@ export default function ServiceCategoryPage() {
                   <div className="mt-8 pt-4 border-t border-gray-100">
                     <Link
                       href={`/services/${targetSlug}`}
+                      prefetch={true}
                       className="inline-flex w-full items-center justify-between rounded-xl bg-[#0B1120] px-4.5 py-3.5 text-xs font-bold text-white transition-all duration-200 hover:bg-[#1a2336] shadow-sm hover:shadow-md"
                     >
                       <span className="text-white">Read Full Service Details</span>

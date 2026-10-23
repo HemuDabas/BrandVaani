@@ -1,5 +1,8 @@
 import { DEFAULT_BLOGS, BlogData } from "./default-blogs";
 import { DEFAULT_SERVICES, ServiceData } from "./default-services";
+import connectToDatabase from "./mongodb";
+import Blog from "./models/Blog";
+import Service from "./models/Service";
 
 export interface KeywordLinkItem {
   keyword: string;
@@ -51,45 +54,43 @@ export function isStrictCategoryMatch(itemCategory: string, targetCategory: stri
   return false;
 }
 
+async function getCachedBlogsAndServices(): Promise<{ blogs: BlogData[]; services: ServiceData[] }> {
+  let blogs: BlogData[] = DEFAULT_BLOGS;
+  let services: ServiceData[] = DEFAULT_SERVICES;
+
+  try {
+    await connectToDatabase();
+    const [dbBlogs, dbServices] = await Promise.all([
+      Blog.find({ isPublished: true }).select("title slug category").lean(),
+      Service.find({}).select("title serviceId category").lean(),
+    ]);
+
+    if (dbBlogs && dbBlogs.length > 0) {
+      blogs = JSON.parse(JSON.stringify(dbBlogs));
+    }
+    if (dbServices && dbServices.length > 0) {
+      services = JSON.parse(JSON.stringify(dbServices));
+    }
+  } catch (err) {
+    // Fallback to in-memory default lists immediately
+  }
+
+  return { blogs, services };
+}
+
 /**
  * Dynamically fetches related links STRICTLY for pages in the SAME category.
- * If no matching pages exist in this category, returns an empty array [].
  */
 export async function fetchRelatedKeywordLinksForBlog(
   currentSlug: string,
   category: string
 ): Promise<KeywordLinkItem[]> {
-  let blogs: BlogData[] = DEFAULT_BLOGS;
-  let services: ServiceData[] = DEFAULT_SERVICES;
-
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const [blogsRes, servicesRes] = await Promise.all([
-      fetch(`${baseUrl}/api/blogs`, { cache: "no-store" }).catch(() => null),
-      fetch(`${baseUrl}/api/services`, { cache: "no-store" }).catch(() => null),
-    ]);
-
-    if (blogsRes && blogsRes.ok) {
-      const data = await blogsRes.json();
-      if (data.success && Array.isArray(data.blogs) && data.blogs.length > 0) {
-        blogs = data.blogs;
-      }
-    }
-
-    if (servicesRes && servicesRes.ok) {
-      const data = await servicesRes.json();
-      if (data.success && Array.isArray(data.services) && data.services.length > 0) {
-        services = data.services;
-      }
-    }
-  } catch (err) {
-    // Fallback to defaults
-  }
+  const { blogs, services } = await getCachedBlogsAndServices();
 
   const result: KeywordLinkItem[] = [];
   const seenKeys = new Set<string>();
 
-  // 1. Strictly match blogs in the same category
+  // 1. Strictly match other blog articles in the same category
   blogs.forEach((b) => {
     if (b.slug !== currentSlug && isStrictCategoryMatch(b.category, category)) {
       const key = `blog-${b.slug}`;
@@ -126,38 +127,12 @@ export async function fetchRelatedKeywordLinksForBlog(
 
 /**
  * Dynamically fetches related links STRICTLY for pages in the SAME category.
- * If no matching pages exist in this category, returns an empty array [].
  */
 export async function fetchRelatedKeywordLinksForService(
   currentServiceId: string,
   category: string
 ): Promise<KeywordLinkItem[]> {
-  let blogs: BlogData[] = DEFAULT_BLOGS;
-  let services: ServiceData[] = DEFAULT_SERVICES;
-
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const [blogsRes, servicesRes] = await Promise.all([
-      fetch(`${baseUrl}/api/blogs`, { cache: "no-store" }).catch(() => null),
-      fetch(`${baseUrl}/api/services`, { cache: "no-store" }).catch(() => null),
-    ]);
-
-    if (blogsRes && blogsRes.ok) {
-      const data = await blogsRes.json();
-      if (data.success && Array.isArray(data.blogs) && data.blogs.length > 0) {
-        blogs = data.blogs;
-      }
-    }
-
-    if (servicesRes && servicesRes.ok) {
-      const data = await servicesRes.json();
-      if (data.success && Array.isArray(data.services) && data.services.length > 0) {
-        services = data.services;
-      }
-    }
-  } catch (err) {
-    // Fallback to defaults
-  }
+  const { blogs, services } = await getCachedBlogsAndServices();
 
   const result: KeywordLinkItem[] = [];
   const seenKeys = new Set<string>();

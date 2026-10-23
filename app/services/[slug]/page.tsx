@@ -4,8 +4,8 @@ import ServiceFaqAccordion from "@/app/components/ServiceFaqAccordion";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+
+export const revalidate = 3600;
 import {
   Search,
   Share2,
@@ -33,35 +33,51 @@ import connectToDatabase from "@/lib/mongodb";
 import Service from "@/lib/models/Service";
 
 async function getService(slug: string): Promise<ServiceData | null> {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/services/${slug}`, {
-      cache: "no-store",
-    });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.success && data.service) {
-        return data.service;
-      }
-    }
-  } catch (err) {
-    console.error("Fetch service error:", err);
-  }
+  const slugLower = slug.toLowerCase();
 
+  // Check DEFAULT_SERVICES in-memory first for ultra-fast response
+  const defaultMatch = DEFAULT_SERVICES.find(
+    (s) => s.serviceId.toLowerCase() === slugLower
+  );
+
+  // Check MongoDB for updated / custom services
   try {
     await connectToDatabase();
     const service = await Service.findOne({
-      $or: [{ serviceId: slug }, { slug: slug }],
+      $or: [{ serviceId: slug }, { slug: slug }, { serviceId: slugLower }, { slug: slugLower }],
     }).lean();
     if (service) return JSON.parse(JSON.stringify(service));
-  } catch (err) {}
+  } catch (err) {
+    console.error("DB lookup error:", err);
+  }
 
-  const defaultMatch = DEFAULT_SERVICES.find(
-    (s) => s.serviceId.toLowerCase() === slug.toLowerCase()
-  );
   if (defaultMatch) return defaultMatch;
 
   return null;
+}
+
+// Pre-render all service slugs at build time for instant CDN loading
+export async function generateStaticParams() {
+  const paramsMap = new Map<string, { slug: string }>();
+
+  DEFAULT_SERVICES.forEach((s) => {
+    paramsMap.set(s.serviceId.toLowerCase(), { slug: s.serviceId.toLowerCase() });
+  });
+
+  try {
+    await connectToDatabase();
+    const dbServices = await Service.find({}, "serviceId slug").lean();
+    if (dbServices && dbServices.length > 0) {
+      dbServices.forEach((s: any) => {
+        if (s.serviceId) paramsMap.set(s.serviceId.toLowerCase(), { slug: s.serviceId.toLowerCase() });
+        if (s.slug) paramsMap.set(s.slug.toLowerCase(), { slug: s.slug.toLowerCase() });
+      });
+    }
+  } catch (err) {
+    console.error("Static params fallback to default services");
+  }
+
+  return Array.from(paramsMap.values());
 }
 
 async function getAllServices(): Promise<ServiceData[]> {

@@ -182,7 +182,7 @@ export default function Navbar() {
                     {/* SECTION 1: DIGITAL MARKETING */}
                     <div className="pr-4 space-y-3">
                       <Link
-                        href="/services/category/digital-marketing"
+                        href="/services/category/digital-marketing" prefetch={true}
                         onClick={() => setMegaMenuOpen(false)}
                         className="group flex items-center gap-2.5 pb-2 border-b border-gray-100 hover:border-blue-500 transition"
                       >
@@ -206,7 +206,7 @@ export default function Navbar() {
                           return (
                             <Link
                               key={targetSlug}
-                              href={`/services/${targetSlug}`}
+                              href={`/services/${targetSlug}`} prefetch={true}
                               onClick={() => setMegaMenuOpen(false)}
                               className="group flex items-start gap-3 rounded-xl p-2.5 transition hover:bg-gray-50"
                             >
@@ -230,7 +230,7 @@ export default function Navbar() {
                     {/* SECTION 2: WEB DEVELOPMENT */}
                     <div className="px-4 space-y-3">
                       <Link
-                        href="/services/category/web-development"
+                        href="/services/category/web-development" prefetch={true}
                         onClick={() => setMegaMenuOpen(false)}
                         className="group flex items-center gap-2.5 pb-2 border-b border-gray-100 hover:border-purple-500 transition"
                       >
@@ -254,7 +254,7 @@ export default function Navbar() {
                           return (
                             <Link
                               key={targetSlug}
-                              href={`/services/${targetSlug}`}
+                              href={`/services/${targetSlug}`} prefetch={true}
                               onClick={() => setMegaMenuOpen(false)}
                               className="group flex items-start gap-3 rounded-xl p-2.5 transition hover:bg-gray-50"
                             >
@@ -278,7 +278,7 @@ export default function Navbar() {
                     {/* SECTION 3: OTHERS (GMB & LOCAL) */}
                     <div className="pl-4 space-y-3">
                       <Link
-                        href="/services/category/others"
+                        href="/services/category/others" prefetch={true}
                         onClick={() => setMegaMenuOpen(false)}
                         className="group flex items-center gap-2.5 pb-2 border-b border-gray-100 hover:border-amber-500 transition"
                       >
@@ -302,7 +302,7 @@ export default function Navbar() {
                           return (
                             <Link
                               key={targetSlug}
-                              href={`/services/${targetSlug}`}
+                              href={`/services/${targetSlug}`} prefetch={true}
                               onClick={() => setMegaMenuOpen(false)}
                               className="group flex items-start gap-3 rounded-xl p-2.5 transition hover:bg-gray-50"
                             >
@@ -457,7 +457,7 @@ export default function Navbar() {
                         return (
                           <Link
                             key={targetSlug}
-                            href={`/services/${targetSlug}`}
+                            href={`/services/${targetSlug}`} prefetch={true}
                             onClick={() => setIsOpen(false)}
                             className="flex items-center gap-2 text-sm text-gray-700 hover:text-black py-1"
                           >
@@ -480,7 +480,7 @@ export default function Navbar() {
                         return (
                           <Link
                             key={targetSlug}
-                            href={`/services/${targetSlug}`}
+                            href={`/services/${targetSlug}`} prefetch={true}
                             onClick={() => setIsOpen(false)}
                             className="flex items-center gap-2 text-sm text-gray-700 hover:text-black py-1"
                           >
@@ -503,7 +503,7 @@ export default function Navbar() {
                         return (
                           <Link
                             key={targetSlug}
-                            href={`/services/${targetSlug}`}
+                            href={`/services/${targetSlug}`} prefetch={true}
                             onClick={() => setIsOpen(false)}
                             className="flex items-center gap-2 text-sm text-gray-700 hover:text-black py-1"
                           >
