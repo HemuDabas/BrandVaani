@@ -77,11 +77,11 @@ export default function Header() {
                 },
               },
             }}
-            className="text-5xl font-medium leading-[1.02] tracking-[-0.045em] sm:text-6xl lg:text-[4.25rem] xl:text-[4.8rem]"
+            className="text-4xl font-medium leading-[1.05] tracking-[-0.04em] sm:text-6xl lg:text-[4.25rem] xl:text-[4.8rem] break-words"
           >
             Grow Your Business
             <br />
-            with SmartDigital
+            with Smart Digital
             <br />
             Marketing
           </motion.h1>

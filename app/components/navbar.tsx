@@ -100,7 +100,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/95 backdrop-blur-md">
+      <header className="sticky  top-0 z-50 w-full border-b border-gray-100 bg-white/95 backdrop-blur-md">
         <nav className="mx-auto flex h-[76px] max-w-[1200px] items-center justify-between px-5 sm:px-6 lg:px-8">
           {/* LOGO */}
           <Link

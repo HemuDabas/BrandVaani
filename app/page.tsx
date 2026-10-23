@@ -23,11 +23,11 @@ export default function Home() {
       <Header />
          <Counters />
       <About />
-      <hr className="h-[2px] w-6xl rounded-full border-0 bg-[#0B1120]/10" />
+      <hr className="h-[2px] w-full max-w-6xl mx-auto rounded-full border-0 bg-[#0B1120]/10" />
       <Services />
       
       <HorizontalTimeline />
-      <hr className="h-[2px] w-6xl rounded-full border-0 bg-[#0B1120]/10" />
+      <hr className="h-[2px] w-full max-w-6xl mx-auto rounded-full border-0 bg-[#0B1120]/10" />
       <Portfolio />
       
        <BrandLogos />

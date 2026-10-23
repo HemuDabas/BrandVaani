@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
+import ScrollToTop from "./components/ScrollToTop";
 import HashNavigationHandler from "./components/HashNavigationHandler";
 import { Toaster } from "react-hot-toast";
 
@@ -32,8 +33,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <HashNavigationHandler />
         <Toaster position="top-right" reverseOrder={false} />
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 w-full overflow-x-clip">{children}</main>
         <Footer />
+        <ScrollToTop />
       </body>
     </html>
   );
